@@ -1,0 +1,70 @@
+openapi: 3.0.3
+info:
+  title: Gateway API
+  description: A service greets the user
+  version: 1.0.0
+
+tags:
+  - name: Gateway
+
+paths:
+
+  /hello/{name}:
+    get:
+      operationId: hello
+      summary: Returns hello + user name
+      tags:
+        - Gateway
+      parameters:
+        - in: path
+          name: name
+          schema:
+            type: string
+          required: true
+      responses:
+        "200":
+          description: Successfully returning hello + user name to the client.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HelloResponse"
+
+  /goodbye/{name}:
+    get:
+      operationId: goodbye
+      summary: Returns goodbye + user name
+      tags:
+        - Gateway
+      parameters:
+        - in: path
+          name: name
+          schema:
+            type: string
+          required: true
+      responses:
+        "200":
+          description: Successfully returning goodbye + name to the client.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GoodbyeResponse"
+
+components:
+  schemas:
+    HelloResponse:
+      type: object
+      required:
+        - value
+      properties:
+        value:
+          type: string
+          example: "Hello world"
+
+    GoodbyeResponse:
+      type: object
+      required:
+        - value
+      properties:
+        value:
+          type: string
+          example: "Goodbye world"
