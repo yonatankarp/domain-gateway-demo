@@ -1,6 +1,6 @@
 plugins {
     id("jacoco")
-    id("spring-boot-app-template.code-metrics")
+    id("domain-gateway-demo.code-metrics")
     id("org.springframework.boot")
     id("io.spring.dependency-management")
     kotlin("jvm")

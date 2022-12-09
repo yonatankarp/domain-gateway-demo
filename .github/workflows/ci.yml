@@ -20,7 +20,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        service: [ spring-boot-app-template ]
+        service: [ domain-gateway-demo ]
     runs-on: ubuntu-latest
     permissions:
       actions: read

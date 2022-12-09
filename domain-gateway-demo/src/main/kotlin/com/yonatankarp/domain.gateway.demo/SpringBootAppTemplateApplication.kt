@@ -1,4 +1,4 @@
-package com.yonatankarp.springbootapptemplate
+package com.yonatankarp.domain.gateway.demo
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication

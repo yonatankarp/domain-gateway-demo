@@ -1,10 +1,10 @@
 version: "3.9"
 services:
-  spring-boot-app-template:
-    container_name: spring-boot-app-template
+  domain-gateway-demo:
+    container_name: domain-gateway-demo
     build:
       context: .
-      dockerfile: ./spring-boot-app-template/Dockerfile
+      dockerfile: ./domain-gateway-demo/Dockerfile
     networks:
       - proxynet
     environment:
@@ -14,4 +14,4 @@ services:
 
 networks:
   proxynet:
-    name: spring-boot-app-template-network
+    name: domain-gateway-demo-network

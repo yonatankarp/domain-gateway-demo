@@ -1,4 +1,4 @@
-rootProject.name = "spring-boot-app-template"
+rootProject.name = "domain-gateway-demo"
 include(
-    "spring-boot-app-template"
+    "domain-gateway-demo"
 )
