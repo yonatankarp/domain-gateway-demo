@@ -20,7 +20,7 @@ class DomainGatewayConfig {
             .Builder()
             .addInterceptor(
                 HttpLoggingInterceptor()
-                    .apply { level = BODY }
+                    .apply { level = BODY },
             )
             .build()
 
