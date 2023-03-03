@@ -69,6 +69,11 @@ tasks {
     }
 }
 
+// Should be removed once the Spotless plugin would be updated to support Gradle 8
+tasks.findByName("spotlessKotlin")?.dependsOn("compileKotlin")
+tasks.findByName("spotlessKotlin")?.dependsOn("compileTestKotlin")
+tasks.findByName("spotlessKotlin")?.dependsOn("test")
+
 /********************************************/
 /********* OPEN API SPEC GENERATION *********/
 /********************************************/
