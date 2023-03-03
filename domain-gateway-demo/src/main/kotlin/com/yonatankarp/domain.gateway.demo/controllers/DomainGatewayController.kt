@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.RestController
 class DomainGatewayController : GatewayApi {
 
     override fun hello(
-        name: String
+        name: String,
     ): ResponseEntity<HelloResponse> = TODO()
 
     override fun goodbye(
-        name: String
+        name: String,
     ): ResponseEntity<GoodbyeResponse> = TODO()
 }
