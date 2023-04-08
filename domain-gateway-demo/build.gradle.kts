@@ -69,10 +69,16 @@ tasks {
     }
 }
 
-// Should be removed once the Spotless plugin would be updated to support Gradle 8
-tasks.findByName("spotlessKotlin")?.dependsOn("compileKotlin")
-tasks.findByName("spotlessKotlin")?.dependsOn("compileTestKotlin")
-tasks.findByName("spotlessKotlin")?.dependsOn("test")
+val taskDependencies = mapOf(
+    "spotlessKotlin" to listOf("compileKotlin", "compileTestKotlin", "test", "jacocoTestReport"),
+)
+
+taskDependencies.forEach {
+    val task = it.key
+    it.value.forEach { dependsOn ->
+        tasks.findByName(task)!!.dependsOn(dependsOn)
+    }
+}
 
 /********************************************/
 /********* OPEN API SPEC GENERATION *********/
@@ -105,7 +111,7 @@ val supportedApis = listOf(
         name = "Gateway API",
         taskName = "generateGatewayApi",
         directoryPath = apiDirectoryPath,
-        templateDir = "$apiDirectoryPath/templates/server",
+        templateDir = "$apiDirectoryPath/templates/kotlin-spring",
         outputDir = "$openApiGenerateOutputDir/domain-gateway",
         specFileName = "gateway-api.yaml",
         generatorType = "kotlin-spring",
@@ -117,7 +123,8 @@ val supportedApis = listOf(
             "implicitHeaders" to "true",
             "hideGenerationTimestamp" to "true",
             "useTags" to "true",
-            "documentationProvider" to "none"
+            "documentationProvider" to "none",
+            "useSpringBoot3" to "true",
         )
     ),
     ApiSpec(
