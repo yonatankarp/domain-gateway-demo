@@ -19,7 +19,7 @@ kotlin {
 val coroutinesVersion = "1.6.4"
 val mockkVersion = "1.13.2"
 val mockkSpringVersion = "3.1.1"
-val okHttpVersion = "4.10.0"
+val okHttpVersion = "4.11.0"
 val retrofitVersion = "2.9.0"
 
 dependencies {
