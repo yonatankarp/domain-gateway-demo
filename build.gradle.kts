@@ -10,7 +10,7 @@ plugins {
     val kotlinVersion = "1.9.10"
     kotlin("jvm") version kotlinVersion apply false
     kotlin("plugin.spring") version kotlinVersion apply false
-    id("org.openapi.generator") version "6.6.0" apply false
+    id("org.openapi.generator") version "7.0.0" apply false
 }
 
 subprojects {
