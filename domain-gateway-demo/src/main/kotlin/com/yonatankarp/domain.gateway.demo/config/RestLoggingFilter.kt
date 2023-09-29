@@ -20,7 +20,6 @@ import org.springframework.web.util.ContentCachingResponseWrapper
 @WebFilter(urlPatterns = ["/*"])
 @Order(Int.MIN_VALUE)
 class RestLoggingFilter(objectMapper: ObjectMapper) : OncePerRequestFilter() {
-
     private val objectMapper = objectMapper.copy().disable(SerializationFeature.INDENT_OUTPUT)
 
     override fun doFilterInternal(
@@ -34,18 +33,20 @@ class RestLoggingFilter(objectMapper: ObjectMapper) : OncePerRequestFilter() {
         filterChain.doFilter(requestContent, responseContent)
 
         if (requestContent.isAsyncStarted) {
-            requestContent.asyncContext.addListener(object : AsyncListener {
-                override fun onComplete(event: AsyncEvent?) {
-                    logInfo(request, requestContent, responseContent)
-                    responseContent.copyBodyToResponse()
-                }
+            requestContent.asyncContext.addListener(
+                object : AsyncListener {
+                    override fun onComplete(event: AsyncEvent?) {
+                        logInfo(request, requestContent, responseContent)
+                        responseContent.copyBodyToResponse()
+                    }
 
-                override fun onTimeout(event: AsyncEvent?) =
-                    logError(request, requestContent, "Async request timed out")
+                    override fun onTimeout(event: AsyncEvent?) = logError(request, requestContent, "Async request timed out")
 
-                override fun onError(event: AsyncEvent?) = logError(request, requestContent)
-                override fun onStartAsync(event: AsyncEvent?) = Unit
-            })
+                    override fun onError(event: AsyncEvent?) = logError(request, requestContent)
+
+                    override fun onStartAsync(event: AsyncEvent?) = Unit
+                },
+            )
         } else {
             logInfo(request, requestContent, responseContent)
             responseContent.copyBodyToResponse()
@@ -108,10 +109,12 @@ class RestLoggingFilter(objectMapper: ObjectMapper) : OncePerRequestFilter() {
 
     companion object {
         private val log = LoggerFactory.getLogger(RestLoggingFilter::class.java)
-        private val skippedUris = listOf(
-            "/actuator/health",
-            "/actuator/prometheus",
-        )
+        private val skippedUris =
+            listOf(
+                "/actuator/health",
+                "/actuator/prometheus",
+            )
+
         private fun extractHeaders(request: HttpServletRequest): Map<String, String> =
             request.headerNames.toList().associateWith {
                 request.getHeader(it)
