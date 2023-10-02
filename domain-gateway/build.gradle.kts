@@ -15,8 +15,8 @@ kotlin {
 }
 
 dependencies {
-    implementation(libs.bundles.springboot.all)
     implementation(libs.bundles.kotlin.all)
+    implementation(libs.bundles.springboot.all)
 
     api(libs.bundles.retrofit.all)
     compileOnly(libs.retrofit2.scalars)
@@ -25,7 +25,7 @@ dependencies {
 }
 
 tasks {
-    getByName<Jar>("jar") {
+    jar {
         enabled = false
     }
 
@@ -33,7 +33,7 @@ tasks {
         finalizedBy(spotlessApply)
     }
 
-    withType<Test> {
+    test {
         useJUnitPlatform()
     }
 }
