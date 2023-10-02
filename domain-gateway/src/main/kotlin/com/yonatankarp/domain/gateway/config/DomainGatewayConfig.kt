@@ -1,4 +1,4 @@
-package com.yonatankarp.domain.gateway.demo.config
+package com.yonatankarp.domain.gateway.config
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.yonatankarp.goodbye.openapi.v1_current.GoodbyeApi

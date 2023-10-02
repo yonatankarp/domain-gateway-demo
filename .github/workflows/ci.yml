@@ -20,7 +20,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        service: [ domain-gateway-demo ]
+        service: [ domain-gateway, hello-service, goodbye-service ]
     runs-on: ubuntu-latest
     permissions:
       actions: read

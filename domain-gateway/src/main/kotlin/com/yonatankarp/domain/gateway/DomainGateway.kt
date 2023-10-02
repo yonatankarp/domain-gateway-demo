@@ -1,11 +1,11 @@
-package com.yonatankarp.domain.gateway.demo
+package com.yonatankarp.domain.gateway
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class SpringBootAppTemplateApplication
+class DomainGatewayApplication
 
 fun main(args: Array<String>) {
-    runApplication<SpringBootAppTemplateApplication>(*args)
+    runApplication<DomainGatewayApplication>(*args)
 }
