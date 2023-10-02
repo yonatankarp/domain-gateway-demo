@@ -1,123 +1,53 @@
 package com.yonatankarp.domain.gateway.config
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.databind.SerializationFeature
-import jakarta.servlet.AsyncEvent
-import jakarta.servlet.AsyncListener
-import jakarta.servlet.FilterChain
-import jakarta.servlet.annotation.WebFilter
-import jakarta.servlet.http.HttpServletRequest
-import jakarta.servlet.http.HttpServletResponse
 import org.slf4j.LoggerFactory
 import org.springframework.core.annotation.Order
 import org.springframework.http.HttpStatus
+import org.springframework.http.server.reactive.ServerHttpRequest
+import org.springframework.http.server.reactive.ServerHttpResponse
 import org.springframework.stereotype.Component
-import org.springframework.web.filter.OncePerRequestFilter
-import org.springframework.web.util.ContentCachingRequestWrapper
-import org.springframework.web.util.ContentCachingResponseWrapper
+import org.springframework.web.server.ServerWebExchange
+import org.springframework.web.server.WebFilter
+import org.springframework.web.server.WebFilterChain
+import reactor.core.publisher.Mono
 
 @Component
-@WebFilter(urlPatterns = ["/*"])
-@Order(Int.MIN_VALUE)
-class RestLoggingFilter(objectMapper: ObjectMapper) : OncePerRequestFilter() {
-    private val objectMapper = objectMapper.copy().disable(SerializationFeature.INDENT_OUTPUT)
+@Order(1)
+class RestLoggingFilter : WebFilter {
+    private val log = LoggerFactory.getLogger(RestLoggingFilter::class.java)
 
-    override fun doFilterInternal(
-        request: HttpServletRequest,
-        response: HttpServletResponse,
-        filterChain: FilterChain,
-    ) {
-        val requestContent = request as? ContentCachingRequestWrapper ?: ContentCachingRequestWrapper(request)
-        val responseContent = response as? ContentCachingResponseWrapper ?: ContentCachingResponseWrapper(response)
+    private val excludedEndpoints =
+        setOf("/actuator/health", "/actuator/prometheus")
 
-        filterChain.doFilter(requestContent, responseContent)
+    override fun filter(
+        exchange: ServerWebExchange,
+        chain: WebFilterChain,
+    ): Mono<Void> {
+        val request = exchange.request
+        val response = exchange.response
 
-        if (requestContent.isAsyncStarted) {
-            requestContent.asyncContext.addListener(
-                object : AsyncListener {
-                    override fun onComplete(event: AsyncEvent?) {
-                        logInfo(request, requestContent, responseContent)
-                        responseContent.copyBodyToResponse()
-                    }
+        if (shouldExclude(request)) {
+            return chain.filter(exchange)
+        }
 
-                    override fun onTimeout(event: AsyncEvent?) = logError(request, requestContent, "Async request timed out")
+        logRequest(request)
 
-                    override fun onError(event: AsyncEvent?) = logError(request, requestContent)
-
-                    override fun onStartAsync(event: AsyncEvent?) = Unit
-                },
-            )
-        } else {
-            logInfo(request, requestContent, responseContent)
-            responseContent.copyBodyToResponse()
+        return chain.filter(exchange).doOnTerminate {
+            logResponse(request, response)
         }
     }
 
-    private fun logInfo(
-        request: HttpServletRequest,
-        requestContent: ContentCachingRequestWrapper,
-        responseContent: ContentCachingResponseWrapper,
-    ) {
-        if (request.requestURI in skippedUris) {
-            return
-        }
+    private fun shouldExclude(request: ServerHttpRequest) = excludedEndpoints.contains(request.uri.path)
 
-        objectMapper.writeValueAsString(
-            Log(
-                method = requestContent.method,
-                url = request.requestURI,
-                status = responseContent.status,
-                headers = extractHeaders(request),
-                requestBody = String(requestContent.contentAsByteArray),
-                responseBody = String(responseContent.contentAsByteArray),
-            ),
-        ).let { body ->
-            when {
-                responseContent.status < HttpStatus.BAD_REQUEST.value() -> log.info(body)
-                else -> log.error(body)
-            }
-        }
+    private fun logRequest(request: ServerHttpRequest) {
+        log.info("[${request.method}] ${request.uri} --> ${request.body}")
     }
 
-    private fun logError(
-        request: HttpServletRequest,
-        requestContent: ContentCachingRequestWrapper,
-        message: String = "Error while processing the request",
+    private fun logResponse(
+        request: ServerHttpRequest,
+        response: ServerHttpResponse,
     ) {
-        log.error(
-            objectMapper.writeValueAsString(
-                Log(
-                    method = requestContent.method,
-                    url = request.requestURI,
-                    status = HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                    headers = extractHeaders(request),
-                    requestBody = String(requestContent.contentAsByteArray),
-                    responseBody = message,
-                ),
-            ),
-        )
-    }
-
-    data class Log(
-        val method: String?,
-        val url: String,
-        val status: Int,
-        val headers: Map<String, String>,
-        val requestBody: Any?,
-        val responseBody: Any?,
-    )
-
-    companion object {
-        private val log = LoggerFactory.getLogger(RestLoggingFilter::class.java)
-        private val skippedUris =
-            listOf(
-                "/actuator/health",
-                "/actuator/prometheus",
-            )
-
-        private fun extractHeaders(request: HttpServletRequest): Map<String, String> =
-            request.headerNames.toList().associateWith {
-                request.getHeader(it)
-            }
+        val status = response.statusCode ?: HttpStatus.INTERNAL_SERVER_ERROR
+        log.info("[${request.method}] ${request.uri} <-- [${status.value()}] ${request.body}")
     }
 }

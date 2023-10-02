@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class DomainGatewayController : GatewayApi<Any> {
-    override fun hello(name: String): ResponseEntity<Any> = TODO()
+    override suspend fun hello(name: String): ResponseEntity<Any> = TODO()
 
-    override fun goodbye(name: String): ResponseEntity<Any> = TODO()
+    override suspend fun goodbye(name: String): ResponseEntity<Any> = TODO()
 }
