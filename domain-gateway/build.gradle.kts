@@ -93,6 +93,7 @@ val supportedApis = listOf(
             "hideGenerationTimestamp" to "true",
             "useTags" to "true",
             "documentationProvider" to "none",
+            "reactive" to "true",
             "useSpringBoot3" to "true",
         )
     ),
