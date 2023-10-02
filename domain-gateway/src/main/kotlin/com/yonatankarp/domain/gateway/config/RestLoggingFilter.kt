@@ -12,7 +12,7 @@ import org.springframework.web.server.WebFilterChain
 import reactor.core.publisher.Mono
 
 @Component
-@Order(1)
+@Order(Int.MIN_VALUE)
 class RestLoggingFilter : WebFilter {
     private val log = LoggerFactory.getLogger(RestLoggingFilter::class.java)
 
@@ -37,10 +37,11 @@ class RestLoggingFilter : WebFilter {
         }
     }
 
-    private fun shouldExclude(request: ServerHttpRequest) = excludedEndpoints.contains(request.uri.path)
+    private fun shouldExclude(request: ServerHttpRequest) =
+        excludedEndpoints.contains(request.uri.path)
 
     private fun logRequest(request: ServerHttpRequest) {
-        log.info("[${request.method}] ${request.uri} --> ${request.body}")
+        log.info("[${request.method}] ${request.uri}")
     }
 
     private fun logResponse(
@@ -48,6 +49,6 @@ class RestLoggingFilter : WebFilter {
         response: ServerHttpResponse,
     ) {
         val status = response.statusCode ?: HttpStatus.INTERNAL_SERVER_ERROR
-        log.info("[${request.method}] ${request.uri} <-- [${status.value()}] ${request.body}")
+        log.info("[${request.method}] ${request.uri} <-- [${status.value()}]")
     }
 }
