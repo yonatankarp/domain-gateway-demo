@@ -34,6 +34,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
     api("com.squareup.retrofit2:retrofit:$retrofitVersion")
+    compileOnly("com.squareup.retrofit2:converter-scalars:$retrofitVersion")
     api("com.squareup.retrofit2:converter-jackson:$retrofitVersion")
     api("com.squareup.okhttp3:logging-interceptor:$okHttpVersion")
 
@@ -85,7 +86,7 @@ taskDependencies.forEach {
 /********************************************/
 
 val apiDirectoryPath = "$projectDir/src/main/resources/api"
-val openApiGenerateOutputDir = "$buildDir/generated/openapi"
+val openApiGenerateOutputDir = "${layout.buildDirectory.get()}/generated/openapi"
 
 /**
  * A class represents a specific spec to generate.
@@ -211,11 +212,6 @@ tasks {
 supportedApis.first().let {
     sourceSets[SourceSet.MAIN_SOURCE_SET_NAME].java {
         srcDir("${it.outputDir}/src/main/kotlin")
-        exclude(
-            "**/ApiClient.kt",
-            "**/OAuth.kt",
-            "**/OAuthOkHttpClient.kt"
-        )
     }
 }
 
