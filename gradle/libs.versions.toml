@@ -12,10 +12,11 @@ okhttp = "4.11.0"
 [libraries]
 
 # Kotlin & Coroutines
-kotlin_core =  { module = "org.jetbrains.kotlin:kotlin-stdlib" }
+kotlin_core = { module = "org.jetbrains.kotlin:kotlin-stdlib" }
 kotlin_jackson = { module = "com.fasterxml.jackson.module:jackson-module-kotlin" }
 kotlin_reflect = { module = "org.jetbrains.kotlin:kotlin-reflect" }
-kotlin_coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines"}
+kotlin_coroutines_core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+kotlin_coroutines_reactor = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-reactor", version.ref = "coroutines" }
 
 # Retrofit & OkHttp
 retrofit2_core = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit2" }
@@ -29,11 +30,11 @@ springboot_validation_starter = { module = "org.springframework.boot:spring-boot
 springboot_actuator_starter = { module = "org.springframework.boot:spring-boot-starter-actuator" }
 
 # Tests
-springboot_test_starter =  { module = "org.springframework.boot:spring-boot-starter-test" }
+springboot_test_starter = { module = "org.springframework.boot:spring-boot-starter-test" }
 
 [plugins]
-kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin"}
-kotlin_spring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotlin"}
+kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin_spring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotlin" }
 openapi_generator = { id = "org.openapi.generator", version.ref = "openapi" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
 spring_boot = { id = "org.springframework.boot", version.ref = "springboot" }
@@ -43,7 +44,8 @@ spring_dependency_management = { id = "io.spring.dependency-management", version
 
 kotlin_all = [
     "kotlin_core",
-    "kotlin_coroutines",
+    "kotlin_coroutines_core",
+    "kotlin_coroutines_reactor",
     "kotlin_jackson",
     "kotlin_reflect",
 ]

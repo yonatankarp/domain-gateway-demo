@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.spring)
     alias(libs.plugins.spring.boot)
     alias(libs.plugins.spring.dependency.management)
+    alias(libs.plugins.openapi.generator)
 }
 
 repositories {
@@ -15,6 +16,29 @@ dependencies {
 
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
+}
+
+openApiGenerate {
+    generatorName = "kotlin-spring"
+    inputSpec = "$projectDir/src/main/resources/api/hello-api.yaml"
+    outputDir = "${layout.buildDirectory.get()}/generated/openapi/hello-service"
+    apiPackage = "com.yonatankarp.hello.openapi.v1_current"
+    modelPackage = "com.yonatankarp.hello.openapi.v1_current.models"
+    templateDir = "$projectDir/src/main/resources/api/templates/kotlin-spring"
+    configOptions = mapOf(
+        "dateLibrary" to "java8",
+        "interfaceOnly" to "true",
+        "implicitHeaders" to "true",
+        "hideGenerationTimestamp" to "true",
+        "useTags" to "true",
+        "documentationProvider" to "none",
+        "reactive" to "true",
+        "useSpringBoot3" to "true",
+    )
+}
+
+sourceSets[SourceSet.MAIN_SOURCE_SET_NAME].kotlin {
+    srcDir("${layout.buildDirectory.get()}/generated/openapi/hello-service/src/main/kotlin")
 }
 
 tasks {

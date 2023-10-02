@@ -1,0 +1,41 @@
+openapi: 3.0.3
+info:
+  title: Hello API
+  description: A service greeting with hello
+  version: 1.0.0
+
+tags:
+  - name: Hello
+
+paths:
+
+  /hello/{name}:
+    get:
+      operationId: hello
+      summary: Returns hello + user name
+      tags:
+        -  Hello
+      parameters:
+        - in: path
+          name: name
+          schema:
+            type: string
+          required: true
+      responses:
+        "200":
+          description: Successfully returning hello + user name to the client.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HelloResponse"
+
+components:
+  schemas:
+    HelloResponse:
+      type: object
+      required:
+        - value
+      properties:
+        value:
+          type: string
+          example: "Hello world"

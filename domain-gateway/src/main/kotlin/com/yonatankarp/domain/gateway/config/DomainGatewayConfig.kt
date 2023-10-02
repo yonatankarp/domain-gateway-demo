@@ -31,7 +31,7 @@ class DomainGatewayConfig {
         converterFactories: List<Factory>,
     ): HelloApi =
         ApiClient(
-            baseUrl = "http://hello-service:8080",
+            baseUrl = "http://localhost:8181",
             serializerBuilder = objectMapper,
             okHttpClientBuilder = okHttpClientBuilder(),
             converterFactories = converterFactories,
@@ -43,7 +43,7 @@ class DomainGatewayConfig {
         converterFactories: List<Factory>,
     ): GoodbyeApi =
         ApiClient(
-            baseUrl = "http://goodbyte-service:8789",
+            baseUrl = "http://localhost:8282",
             serializerBuilder = objectMapper,
             okHttpClientBuilder = okHttpClientBuilder(),
             converterFactories = converterFactories,

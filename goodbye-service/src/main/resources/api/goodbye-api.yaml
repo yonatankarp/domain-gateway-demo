@@ -1,0 +1,41 @@
+openapi: 3.0.3
+info:
+  title: Goodbye API
+  description: A service greeting with goodbye
+  version: 1.0.0
+
+tags:
+  - name: Goodbye
+
+paths:
+
+  /goodbye/{name}:
+    get:
+      operationId: goodbye
+      summary: Returns goodbye + user name
+      tags:
+        -  Goodbye
+      parameters:
+        - in: path
+          name: name
+          schema:
+            type: string
+          required: true
+      responses:
+        "200":
+          description: Successfully returning goodbye + name to the client.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GoodbyeResponse"
+
+components:
+  schemas:
+    GoodbyeResponse:
+      type: object
+      required:
+        - value
+      properties:
+        value:
+          type: string
+          example: "Goodbye world"
