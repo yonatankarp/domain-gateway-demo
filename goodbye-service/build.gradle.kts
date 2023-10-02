@@ -10,6 +10,7 @@ repositories {
 }
 
 dependencies {
+    implementation(libs.bundles.kotlin.all)
     implementation(libs.bundles.springboot.all)
 
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
@@ -17,7 +18,7 @@ dependencies {
 }
 
 tasks {
-    getByName<Jar>("jar") {
+    jar {
         enabled = false
     }
 
@@ -25,7 +26,7 @@ tasks {
         finalizedBy(spotlessApply)
     }
 
-    withType<Test> {
+    test {
         useJUnitPlatform()
     }
 }
