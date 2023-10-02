@@ -1,45 +1,27 @@
 import org.openapitools.generator.gradle.plugin.tasks.GenerateTask as GenerateOpenApiTask
 
 plugins {
-    id("jacoco")
-    id("domain-gateway-demo.code-metrics")
-    id("org.springframework.boot")
-    id("io.spring.dependency-management")
-    kotlin("jvm")
-    kotlin("plugin.spring")
-    id("org.openapi.generator")
+    alias(libs.plugins.spring.boot)
+    alias(libs.plugins.spring.dependency.management)
+    alias(libs.plugins.kotlin)
+    alias(libs.plugins.kotlin.spring)
+    alias(libs.plugins.openapi.generator)
 }
 
 kotlin {
     jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
+        languageVersion.set(JavaLanguageVersion.of(libs.versions.jvm.get()))
     }
 }
 
-val coroutinesVersion = "1.6.4"
-val mockkVersion = "1.13.2"
-val mockkSpringVersion = "3.1.1"
-val okHttpVersion = "4.11.0"
-val retrofitVersion = "2.9.0"
-
 dependencies {
-    // Spring Boot
-    implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.springframework.boot:spring-boot-starter-validation")
-    implementation("org.springframework.boot:spring-boot-starter-actuator")
+    implementation(libs.bundles.springboot.all)
+    implementation(libs.bundles.kotlin.all)
 
-    // Kotlin
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-    implementation("org.jetbrains.kotlin:kotlin-reflect")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    api(libs.bundles.retrofit.all)
+    compileOnly(libs.retrofit2.scalars)
 
-    api("com.squareup.retrofit2:retrofit:$retrofitVersion")
-    compileOnly("com.squareup.retrofit2:converter-scalars:$retrofitVersion")
-    api("com.squareup.retrofit2:converter-jackson:$retrofitVersion")
-    api("com.squareup.okhttp3:logging-interceptor:$okHttpVersion")
-
-    // Tests
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation(libs.bundles.tests.all)
 }
 
 tasks {
@@ -47,31 +29,17 @@ tasks {
         enabled = false
     }
 
-    build {
+    check {
         finalizedBy(spotlessApply)
     }
 
     withType<Test> {
         useJUnitPlatform()
-        finalizedBy(spotlessApply)
-        finalizedBy(jacocoTestReport)
-        finalizedBy(pmdTest)
-    }
-
-    jacoco {
-        toolVersion = "0.8.7"
-    }
-
-    jacocoTestReport {
-        reports {
-            xml.required.set(true)
-            html.required.set(true)
-        }
     }
 }
 
 val taskDependencies = mapOf(
-    "spotlessKotlin" to listOf("compileKotlin", "compileTestKotlin", "test", "jacocoTestReport"),
+    "spotlessKotlin" to listOf("compileKotlin", "compileTestKotlin", "test", "processResources"),
 )
 
 taskDependencies.forEach {

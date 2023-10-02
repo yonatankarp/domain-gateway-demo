@@ -1,16 +1,12 @@
 plugins {
-    id("jacoco")
-    id("pmd")
     id("domain-gateway-demo.java-conventions")
-    id("domain-gateway-demo.code-metrics")
     id("domain-gateway-demo.publishing-conventions")
-    id("com.diffplug.spotless") version "6.22.0" apply true
-    id("org.springframework.boot") version "3.1.4" apply false
-    id("io.spring.dependency-management") version "1.1.3" apply false
-    val kotlinVersion = "1.9.10"
-    kotlin("jvm") version kotlinVersion apply false
-    kotlin("plugin.spring") version kotlinVersion apply false
-    id("org.openapi.generator") version "7.0.1" apply false
+    alias(libs.plugins.spotless) apply true
+    alias(libs.plugins.spring.boot) apply false
+    alias(libs.plugins.spring.dependency.management) apply false
+    alias(libs.plugins.kotlin) apply false
+    alias(libs.plugins.kotlin.spring) apply false
+    alias(libs.plugins.openapi.generator) apply false
 }
 
 subprojects {
@@ -24,6 +20,32 @@ subprojects {
                 username = findProperty("gpr.user")?.toString() ?: System.getenv("GITHUB_ACTOR")
                 password = findProperty("gpr.key")?.toString() ?: System.getenv("GITHUB_TOKEN")
             }
+        }
+    }
+}
+
+allprojects {
+    apply(plugin = "com.diffplug.spotless")
+
+    repositories {
+        mavenCentral()
+    }
+
+    spotless {
+        kotlin {
+            target(
+                fileTree(projectDir) {
+                    include("**/*.kt")
+                    exclude(
+                        "**/.gradle/**",
+                        "**/build/generated/**"
+                    )
+                }
+            )
+            trimTrailingWhitespace()
+            endWithNewline()
+            // see https://github.com/shyiko/ktlint#standard-rules
+            ktlint()
         }
     }
 }

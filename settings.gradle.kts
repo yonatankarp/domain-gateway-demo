@@ -1,4 +1,6 @@
 rootProject.name = "domain-gateway-demo"
 include(
-    "domain-gateway-demo"
+    "domain-gateway",
+    "hello-service",
+    "goodbye-service"
 )

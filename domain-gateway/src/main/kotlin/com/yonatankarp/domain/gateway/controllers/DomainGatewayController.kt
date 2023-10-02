@@ -1,4 +1,4 @@
-package com.yonatankarp.domain.gateway.demo.controllers
+package com.yonatankarp.domain.gateway.controllers
 
 import com.yonatankarp.gateway.openapi.v1.GatewayApi
 import org.springframework.http.ResponseEntity
