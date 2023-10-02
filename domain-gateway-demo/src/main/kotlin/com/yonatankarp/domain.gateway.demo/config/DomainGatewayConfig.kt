@@ -6,43 +6,46 @@ import com.yonatankarp.hello.openapi.v1_current.HelloApi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.logging.HttpLoggingInterceptor.Level.BODY
+import org.openapitools.client.infrastructure.ApiClient
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import retrofit2.Converter.Factory
-import retrofit2.Retrofit
 import retrofit2.converter.jackson.JacksonConverterFactory
 
 @Configuration
 class DomainGatewayConfig {
-    private fun okHttpClient() =
+    private fun okHttpClientBuilder() =
         OkHttpClient
             .Builder()
             .addInterceptor(
                 HttpLoggingInterceptor()
                     .apply { level = BODY },
             )
-            .build()
 
     @Bean
     fun jacksonConverterFactory(objectMapper: ObjectMapper): JacksonConverterFactory = JacksonConverterFactory.create(objectMapper)
 
     @Bean
-    fun helloApiClient(converterFactory: Factory): HelloApi =
-        Retrofit
-            .Builder()
-            .addConverterFactory(converterFactory)
-            .baseUrl("http://hello-service:8080")
-            .client(okHttpClient())
-            .build()
-            .create(HelloApi::class.java)
+    fun helloApiClient(
+        objectMapper: ObjectMapper,
+        converterFactories: List<Factory>,
+    ): HelloApi =
+        ApiClient(
+            baseUrl = "http://hello-service:8080",
+            serializerBuilder = objectMapper,
+            okHttpClientBuilder = okHttpClientBuilder(),
+            converterFactories = converterFactories,
+        ).createService(HelloApi::class.java)
 
     @Bean
-    fun goodbyeApiClient(converterFactory: Factory): GoodbyeApi =
-        Retrofit
-            .Builder()
-            .addConverterFactory(converterFactory)
-            .baseUrl("http://goodbyte-service:8789")
-            .client(okHttpClient())
-            .build()
-            .create(GoodbyeApi::class.java)
+    fun goodbyeApiClient(
+        objectMapper: ObjectMapper,
+        converterFactories: List<Factory>,
+    ): GoodbyeApi =
+        ApiClient(
+            baseUrl = "http://goodbyte-service:8789",
+            serializerBuilder = objectMapper,
+            okHttpClientBuilder = okHttpClientBuilder(),
+            converterFactories = converterFactories,
+        ).createService(GoodbyeApi::class.java)
 }
