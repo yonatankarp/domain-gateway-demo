@@ -10,5 +10,4 @@ class GoodbyeController : GoodbyeApi<GoodbyeResponse> {
     override suspend fun goodbye(name: String): ResponseEntity<GoodbyeResponse> =
         GoodbyeResponse(value = "Goodbye $name!")
             .let { ResponseEntity.ok(it) }
-
 }

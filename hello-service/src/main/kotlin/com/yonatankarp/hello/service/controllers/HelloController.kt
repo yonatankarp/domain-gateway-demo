@@ -10,5 +10,4 @@ class HelloController : HelloApi<HelloResponse> {
     override suspend fun hello(name: String): ResponseEntity<HelloResponse> =
         HelloResponse("Hello, $name!")
             .let { ResponseEntity.ok(it) }
-
 }

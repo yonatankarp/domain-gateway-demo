@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  domain-gateway:
+    platform: linux/amd64
+    build:
+      context: .
+      dockerfile: domain-gateway/Dockerfile
+    environment:
+      HELLO_SERVICE_BASE_URL: http://hello-service:8181
+      GOODBYE_SERVICE_BASE_URL: http://goodbye-service:8282
+    ports:
+      - "8080:8080"
+    depends_on:
+      - hello-service
+      - goodbye-service
+    networks:
+      - domain-network
+
+  hello-service:
+    platform: linux/amd64
+    build:
+      context: .
+      dockerfile: hello-service/Dockerfile
+    ports:
+      - "8181:8181"
+    networks:
+      - domain-network
+
+  goodbye-service:
+    platform: linux/amd64
+    build:
+      context: .
+      dockerfile: goodbye-service/Dockerfile
+    ports:
+      - "8282:8282"
+    networks:
+      - domain-network
+
+networks:
+  domain-network:
