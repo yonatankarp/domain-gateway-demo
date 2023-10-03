@@ -37,8 +37,7 @@ class RestLoggingFilter : WebFilter {
         }
     }
 
-    private fun shouldExclude(request: ServerHttpRequest) =
-        excludedEndpoints.contains(request.uri.path)
+    private fun shouldExclude(request: ServerHttpRequest) = excludedEndpoints.contains(request.uri.path)
 
     private fun logRequest(request: ServerHttpRequest) {
         log.info("[${request.method}] ${request.uri}")

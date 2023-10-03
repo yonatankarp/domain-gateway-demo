@@ -1,2 +1,12 @@
+spring:
+  application:
+    name: domain-gateway
+
 server:
   port: 8080
+
+hello-service:
+  base-url: "${HELLO_SERVICE_BASE_URL:http://localhost:8181}"
+
+goodbye-service:
+  base-url: "${GOODBYE_SERVICE_BASE_URL:http://localhost:8282}"

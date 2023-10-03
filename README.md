@@ -18,26 +18,31 @@ The services can run using the `docker compose` file supplied in the root
 directory of this repository by running the command:
 
 ```shell
-$ docker compose up
+$ ./gradlew assemble && docker compose up --build
 ```
 
 Once all the services are up and running you can test the integration between
 them by calling the services as follow:
 
 ```shell
-# Hello endpoint
 $ curl 'localhost:8080/hello/Yonatan'
+```
 
-# Goodbye endpoint
+Response example:
+
+```json
+{"value":"Hello, Yonatan!"}
+```
+For the goodbye endpoint, run the following:
+
+```shell
 $ curl 'localhost:8080/goodbye/Yonatan'
 ```
 
-If everything was successful, you should see are response similar to this:
+Response example:
 
 ```json
-{
-    "value": "Goodbye Yonatan!"
-}
+{"value":"Goodbye Yonatan!"}
 ```
 
 ## Built With

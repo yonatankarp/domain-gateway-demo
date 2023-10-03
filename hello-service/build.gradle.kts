@@ -53,10 +53,14 @@ tasks {
     test {
         useJUnitPlatform()
     }
+
+    compileKotlin {
+        dependsOn(openApiGenerate)
+    }
 }
 
 val taskDependencies = mapOf(
-    "spotlessKotlin" to listOf("compileKotlin")
+    "spotlessKotlin" to listOf("compileKotlin", "processResources"),
 )
 
 taskDependencies.forEach {

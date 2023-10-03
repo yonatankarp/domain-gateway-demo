@@ -1,2 +1,6 @@
+spring:
+  application:
+    name: goodbye-service
+
 server:
   port: 8282

@@ -13,9 +13,7 @@ class DomainGatewayController(
     private val helloApi: HelloApi,
     private val goodbyeApi: GoodbyeApi,
 ) : GatewayApi<Any> {
-    override suspend fun hello(name: String): ResponseEntity<Any> =
-        helloApi.hello(name).toResponse()
+    override suspend fun hello(name: String): ResponseEntity<Any> = helloApi.hello(name).toResponse()
 
-    override suspend fun goodbye(name: String): ResponseEntity<Any> =
-        goodbyeApi.goodbye(name).toResponse()
+    override suspend fun goodbye(name: String): ResponseEntity<Any> = goodbyeApi.goodbye(name).toResponse()
 }
