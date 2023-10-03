@@ -13,9 +13,7 @@ repositories {
 dependencies {
     implementation(libs.bundles.kotlin.all)
     implementation(libs.bundles.springboot.all)
-
-    testImplementation(platform("org.junit:junit-bom:5.10.0"))
-    testImplementation("org.junit.jupiter:junit-jupiter")
+    testImplementation(libs.bundles.tests.all)
 }
 
 openApiGenerate {

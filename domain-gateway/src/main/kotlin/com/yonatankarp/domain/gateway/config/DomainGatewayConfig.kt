@@ -13,6 +13,19 @@ import org.springframework.context.annotation.Configuration
 import retrofit2.Converter.Factory
 import retrofit2.converter.jackson.JacksonConverterFactory
 
+/**
+ * Configuration class for setting up API clients and related components in the
+ * Domain Gateway service.
+ *
+ * This class configures and provides API clients for two external services:
+ * Hello Service and Goodbye Service.
+ * It also configures Jackson for JSON serialization and deserialization.
+ *
+ * @param helloServiceBaseURL   The base URL of the Hello Service, injected from
+ *                              application properties.
+ * @param goodbyeServiceBaseURL The base URL of the Goodbye Service, injected
+ *                              from application properties.
+ */
 @Configuration
 class DomainGatewayConfig(
     @Value("\${hello-service.base-url}")
@@ -20,6 +33,12 @@ class DomainGatewayConfig(
     @Value("\${goodbye-service.base-url}")
     private val goodbyeServiceBaseURL: String,
 ) {
+    /**
+     * Configures an [OkHttpClient] builder with an [HttpLoggingInterceptor]
+     * set to log request and response bodies.
+     *
+     * @return Configured OkHttpClient builder.
+     */
     private fun okHttpClientBuilder() =
         OkHttpClient
             .Builder()
@@ -28,9 +47,23 @@ class DomainGatewayConfig(
                     .apply { level = BODY },
             )
 
+    /**
+     * Provides a [JacksonConverterFactory] bean for JSON serialization and
+     * deserialization.
+     *
+     * @param objectMapper The ObjectMapper bean provided by Spring.
+     * @return JacksonConverterFactory configured with the provided ObjectMapper.
+     */
     @Bean
     fun jacksonConverterFactory(objectMapper: ObjectMapper): JacksonConverterFactory = JacksonConverterFactory.create(objectMapper)
 
+    /**
+     * Provides an API client for the Hello Service.
+     *
+     * @param objectMapper The ObjectMapper bean provided by Spring.
+     * @param converterFactories List of Retrofit Converter Factories.
+     * @return An instance of [HelloApi] created with the specified configurations.
+     */
     @Bean
     fun helloApiClient(
         objectMapper: ObjectMapper,
@@ -43,6 +76,13 @@ class DomainGatewayConfig(
             converterFactories = converterFactories,
         ).createService(HelloApi::class.java)
 
+    /**
+     * Provides an API client for the Goodbye Service.
+     *
+     * @param objectMapper The ObjectMapper bean provided by Spring.
+     * @param converterFactories List of Retrofit Converter Factories.
+     * @return An instance of [GoodbyeApi] created with the specified configurations.
+     */
     @Bean
     fun goodbyeApiClient(
         objectMapper: ObjectMapper,
