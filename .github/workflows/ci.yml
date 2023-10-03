@@ -70,7 +70,7 @@ jobs:
         id: tests
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: ./gradlew build
+        run: ./gradlew ${{ matrix.service }}:build
 
   dependabot_auto_merge:
     if: ${{ github.event_name == 'pull_request_target' && github.actor == 'dependabot[bot]' }}
