@@ -11,14 +11,35 @@ import org.springframework.web.server.WebFilter
 import org.springframework.web.server.WebFilterChain
 import reactor.core.publisher.Mono
 
+/**
+ * A WebFilter responsible for logging incoming requests and outgoing responses
+ * for HTTP requests. It logs request methods, URIs, and response statuses.
+ *
+ * @property log The logger instance used for logging.
+ * @property excludedEndpoints Set of URIs to be excluded from logging.
+ */
 @Component
 @Order(Int.MIN_VALUE)
 class RestLoggingFilter : WebFilter {
-    private val log = LoggerFactory.getLogger(RestLoggingFilter::class.java)
+    companion object {
+        private val log = LoggerFactory.getLogger(RestLoggingFilter::class.java)
 
-    private val excludedEndpoints =
-        setOf("/actuator/health", "/actuator/prometheus")
+        private val excludedEndpoints =
+            setOf(
+                "/actuator/health",
+                "/actuator/prometheus",
+            )
+    }
 
+    /**
+     * Filters incoming requests and logs them before passing them to the next
+     * filter in the chain. Also, logs the response status after the request is
+     * processed.
+     *
+     * @param exchange The ServerWebExchange containing the request and response.
+     * @param chain The WebFilterChain to continue processing the request.
+     * @return A Mono indicating completion of the request processing.
+     */
     override fun filter(
         exchange: ServerWebExchange,
         chain: WebFilterChain,
