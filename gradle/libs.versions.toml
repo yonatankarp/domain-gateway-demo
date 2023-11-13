@@ -8,7 +8,7 @@ okhttp = "4.12.0"
 openapi = "7.0.1"
 retrofit2 = "2.9.0"
 spotless = "6.22.0"
-springDependencyManagement = "1.1.3"
+springDependencyManagement = "1.1.4"
 springboot = "3.1.5"
 
 [libraries]
