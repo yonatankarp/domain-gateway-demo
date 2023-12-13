@@ -18,6 +18,7 @@ jobs:
     uses: yonatankarp/github-actions/.github/workflows/ci.yml@v1
     with:
       context: ${{ matrix.module }}
+      app_name: ${{ matrix.module }}
 
   dependabot_auto_merge:
     needs: pipeline
