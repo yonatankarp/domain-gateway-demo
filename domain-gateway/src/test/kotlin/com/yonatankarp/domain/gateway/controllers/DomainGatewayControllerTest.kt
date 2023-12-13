@@ -20,7 +20,6 @@ import retrofit2.Response
 @AutoConfigureMockMvc
 @TestConstructor(autowireMode = AutowireMode.ALL)
 class DomainGatewayControllerTest(private val webTestClient: WebTestClient) {
-
     @MockkBean
     private lateinit var helloApi: HelloApi
 
@@ -33,9 +32,10 @@ class DomainGatewayControllerTest(private val webTestClient: WebTestClient) {
         name: String,
         expectedOutput: String,
     ) {
-        coEvery { helloApi.hello(eq(name)) } returns Response.success(
-            HelloResponse("Hello, $name!")
-        )
+        coEvery { helloApi.hello(eq(name)) } returns
+            Response.success(
+                HelloResponse("Hello, $name!"),
+            )
 
         webTestClient.get()
             .uri("/hello/$name")
@@ -52,9 +52,10 @@ class DomainGatewayControllerTest(private val webTestClient: WebTestClient) {
         name: String,
         expectedOutput: String,
     ) {
-        coEvery { goodbyeApi.goodbye(eq(name)) } returns Response.success(
-            GoodbyeResponse("Goodbye $name!")
-        )
+        coEvery { goodbyeApi.goodbye(eq(name)) } returns
+            Response.success(
+                GoodbyeResponse("Goodbye $name!"),
+            )
 
         webTestClient.get()
             .uri("/goodbye/$name")
