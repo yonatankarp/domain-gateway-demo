@@ -19,7 +19,7 @@ dependencies {
     implementation(libs.bundles.springboot.all)
 
     api(libs.bundles.retrofit.all)
-    compileOnly(libs.retrofit2.scalars)
+    implementation(libs.retrofit2.scalars)
 
     testImplementation(libs.bundles.tests.all)
 }
@@ -101,6 +101,7 @@ val supportedApis = listOf(
         name = "Hello API",
         taskName = "generateHelloApi",
         directoryPath = apiDirectoryPath,
+        templateDir = "$apiDirectoryPath/templates/kotlin-client",
         outputDir = "$openApiGenerateOutputDir/domain-gateway",
         specFileName = "hello-api.yaml",
         generatorType = "kotlin",
@@ -122,6 +123,7 @@ val supportedApis = listOf(
         name = "Goodbye API",
         taskName = "generateGoodbyeApi",
         directoryPath = apiDirectoryPath,
+        templateDir = "$apiDirectoryPath/templates/kotlin-client",
         outputDir = "$openApiGenerateOutputDir/domain-gateway",
         specFileName = "goodbye-api.yaml",
         generatorType = "kotlin",
