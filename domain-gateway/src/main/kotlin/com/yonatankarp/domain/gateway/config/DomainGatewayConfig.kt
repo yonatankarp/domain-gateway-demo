@@ -10,8 +10,6 @@ import org.openapitools.client.infrastructure.ApiClient
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import retrofit2.Converter.Factory
-import retrofit2.converter.jackson.JacksonConverterFactory
 
 /**
  * Configuration class for setting up API clients and related components in the
@@ -48,50 +46,30 @@ class DomainGatewayConfig(
             )
 
     /**
-     * Provides a [JacksonConverterFactory] bean for JSON serialization and
-     * deserialization.
-     *
-     * @param objectMapper The ObjectMapper bean provided by Spring.
-     * @return JacksonConverterFactory configured with the provided ObjectMapper.
-     */
-    @Bean
-    fun jacksonConverterFactory(objectMapper: ObjectMapper): JacksonConverterFactory = JacksonConverterFactory.create(objectMapper)
-
-    /**
      * Provides an API client for the Hello Service.
      *
      * @param objectMapper The ObjectMapper bean provided by Spring.
-     * @param converterFactories List of Retrofit Converter Factories.
      * @return An instance of [HelloApi] created with the specified configurations.
      */
     @Bean
-    fun helloApiClient(
-        objectMapper: ObjectMapper,
-        converterFactories: List<Factory>,
-    ): HelloApi =
+    fun helloApiClient(objectMapper: ObjectMapper): HelloApi =
         ApiClient(
             baseUrl = helloServiceBaseURL,
             serializerBuilder = objectMapper,
             okHttpClientBuilder = okHttpClientBuilder(),
-            converterFactories = converterFactories,
         ).createService(HelloApi::class.java)
 
     /**
      * Provides an API client for the Goodbye Service.
      *
      * @param objectMapper The ObjectMapper bean provided by Spring.
-     * @param converterFactories List of Retrofit Converter Factories.
      * @return An instance of [GoodbyeApi] created with the specified configurations.
      */
     @Bean
-    fun goodbyeApiClient(
-        objectMapper: ObjectMapper,
-        converterFactories: List<Factory>,
-    ): GoodbyeApi =
+    fun goodbyeApiClient(objectMapper: ObjectMapper): GoodbyeApi =
         ApiClient(
             baseUrl = goodbyeServiceBaseURL,
             serializerBuilder = objectMapper,
             okHttpClientBuilder = okHttpClientBuilder(),
-            converterFactories = converterFactories,
         ).createService(GoodbyeApi::class.java)
 }

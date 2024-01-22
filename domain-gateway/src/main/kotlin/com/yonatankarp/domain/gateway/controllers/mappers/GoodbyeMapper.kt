@@ -13,7 +13,6 @@ object GoodbyeMapper {
     /**
      * Maps a response from the Goodbye Service to an HTTP response entity.
      *
-     * @param response The response from the Goodbye Service as a receiver.
      * @return A ResponseEntity containing the mapped response.
      */
     fun Response<GoodbyeServiceResponse>.toResponse(): ResponseEntity<Any> =

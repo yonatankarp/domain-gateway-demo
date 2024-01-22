@@ -13,7 +13,6 @@ object HelloMapper {
     /**
      * Maps a response from the Hello Server to an HTTP response entity.
      *
-     * @param response The response from the Hello Server as a receiver.
      * @return A ResponseEntity containing the mapped response.
      */
     fun Response<HelloServerResponse>.toResponse(): ResponseEntity<Any> =

@@ -1,0 +1,17 @@
+@name = Yonatan
+
+### Greeting Api - Hello
+GET http://localhost:8080/hello/{{name}}
+Content-Type: application/json
+
+### Greeting Api - Goodbye
+GET http://localhost:8080/goodbye/{{name}}
+Content-Type: application/json
+
+### Hello Api
+GET http://localhost:8181/hello/{{name}}
+Content-Type: application/json
+
+### Goodbye Api
+GET http://localhost:8282/goodbye/{{name}}
+Content-Type: application/json

@@ -58,7 +58,7 @@ tasks {
 }
 
 val taskDependencies = mapOf(
-    "spotlessKotlin" to listOf("compileKotlin", "processResources"),
+    "spotlessKotlin" to listOf("compileKotlin", "processResources", "compileTestKotlin", "test"),
 )
 
 taskDependencies.forEach {
