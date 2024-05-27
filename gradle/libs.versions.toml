@@ -1,7 +1,7 @@
 [versions]
 coroutines = "1.8.1"
 jvm = "17"
-kotlin = "1.9.24"
+kotlin = "2.0.0"
 mockk = "1.13.11"
 mockkSpring = "4.0.2"
 okhttp = "4.12.0"
