@@ -13,7 +13,9 @@ repositories {
 dependencies {
     implementation(libs.bundles.kotlin.all)
     implementation(libs.bundles.springboot.all)
-    testImplementation(libs.bundles.tests.all)
+    testImplementation(libs.bundles.tests.all) {
+        exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
+    }
 }
 
 openApiGenerate {
