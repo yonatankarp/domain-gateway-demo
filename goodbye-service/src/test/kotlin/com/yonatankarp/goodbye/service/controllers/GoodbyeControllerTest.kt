@@ -12,20 +12,25 @@ import org.springframework.test.web.reactive.server.WebTestClient
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestConstructor(autowireMode = AutowireMode.ALL)
-class GoodbyeControllerTest(private val webTestClient: WebTestClient) {
+class GoodbyeControllerTest(
+    private val webTestClient: WebTestClient,
+) {
     @ParameterizedTest(name = "test goodbye endpoint for {1}")
     @MethodSource("testCases")
     fun `test goodbye endpoint`(
         name: String,
         expectedOutput: String,
     ) {
-        webTestClient.get()
+        webTestClient
+            .get()
             .uri("/goodbye/$name")
             .accept(MediaType.APPLICATION_JSON)
             .exchange()
-            .expectStatus().isOk
+            .expectStatus()
+            .isOk
             .expectBody()
-            .jsonPath("$.value").isEqualTo(expectedOutput)
+            .jsonPath("$.value")
+            .isEqualTo(expectedOutput)
     }
 
     companion object {

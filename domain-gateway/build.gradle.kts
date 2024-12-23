@@ -21,7 +21,9 @@ dependencies {
     api(libs.bundles.retrofit.all)
     implementation(libs.retrofit2.scalars)
 
-    testImplementation(libs.bundles.tests.all)
+    testImplementation(libs.bundles.tests.all) {
+        exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
+    }
 }
 
 tasks {

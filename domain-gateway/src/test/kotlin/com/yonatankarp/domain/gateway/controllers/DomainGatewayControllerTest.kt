@@ -19,7 +19,9 @@ import retrofit2.Response
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestConstructor(autowireMode = AutowireMode.ALL)
-class DomainGatewayControllerTest(private val webTestClient: WebTestClient) {
+class DomainGatewayControllerTest(
+    private val webTestClient: WebTestClient,
+) {
     @MockkBean
     private lateinit var helloApi: HelloApi
 
@@ -37,13 +39,16 @@ class DomainGatewayControllerTest(private val webTestClient: WebTestClient) {
                 HelloResponse("Hello, $name!"),
             )
 
-        webTestClient.get()
+        webTestClient
+            .get()
             .uri("/hello/$name")
             .accept(MediaType.APPLICATION_JSON)
             .exchange()
-            .expectStatus().isOk
+            .expectStatus()
+            .isOk
             .expectBody()
-            .jsonPath("$.value").isEqualTo(expectedOutput)
+            .jsonPath("$.value")
+            .isEqualTo(expectedOutput)
     }
 
     @ParameterizedTest(name = "test goodbye endpoint for {1}")
@@ -57,13 +62,16 @@ class DomainGatewayControllerTest(private val webTestClient: WebTestClient) {
                 GoodbyeResponse("Goodbye $name!"),
             )
 
-        webTestClient.get()
+        webTestClient
+            .get()
             .uri("/goodbye/$name")
             .accept(MediaType.APPLICATION_JSON)
             .exchange()
-            .expectStatus().isOk
+            .expectStatus()
+            .isOk
             .expectBody()
-            .jsonPath("$.value").isEqualTo(expectedOutput)
+            .jsonPath("$.value")
+            .isEqualTo(expectedOutput)
     }
 
     companion object {

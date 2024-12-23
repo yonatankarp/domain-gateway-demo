@@ -45,7 +45,7 @@ allprojects {
             trimTrailingWhitespace()
             endWithNewline()
             // see https://github.com/shyiko/ktlint#standard-rules
-            ktlint()
+            ktlint("1.5.0")
         }
     }
 }
