@@ -1,5 +1,5 @@
 [versions]
-coroutines = "1.10.1"
+coroutines = "1.10.2"
 jvm = "17"
 kotlin = "2.1.20"
 mockk = "1.13.17"
