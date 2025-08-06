@@ -26,9 +26,9 @@ import org.springframework.context.annotation.Configuration
  */
 @Configuration
 class DomainGatewayConfig(
-    @Value("\${hello-service.base-url}")
+    @param:Value("\${hello-service.base-url}")
     private val helloServiceBaseURL: String,
-    @Value("\${goodbye-service.base-url}")
+    @param:Value("\${goodbye-service.base-url}")
     private val goodbyeServiceBaseURL: String,
 ) {
     /**

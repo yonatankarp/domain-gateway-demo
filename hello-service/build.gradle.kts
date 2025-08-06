@@ -24,7 +24,7 @@ openApiGenerate {
     outputDir = "${layout.buildDirectory.get()}/generated/openapi/hello-service"
     apiPackage = "com.yonatankarp.hello.openapi.v1_current"
     modelPackage = "com.yonatankarp.hello.openapi.v1_current.models"
-    templateDir = "$projectDir/src/main/resources/api/templates/kotlin-spring"
+    templateDir.set("$projectDir/src/main/resources/api/templates/kotlin-spring")
     configOptions = mapOf(
         "dateLibrary" to "java8",
         "interfaceOnly" to "true",
