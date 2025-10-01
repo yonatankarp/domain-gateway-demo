@@ -2,7 +2,7 @@
 coroutines = "1.10.2"
 jvm = "17"
 kotlin = "2.2.20"
-mockk = "1.14.5"
+mockk = "1.14.6"
 mockkSpring = "4.0.2"
 okhttp = "5.1.0"
 openapi = "7.16.0"
