@@ -32,6 +32,18 @@ class DomainGatewayConfig(
     private val goodbyeServiceBaseURL: String,
 ) {
     /**
+     * Provides a Jackson 2 ObjectMapper bean for Retrofit compatibility.
+     * Spring Boot 4.0 auto-configures Jackson 3,
+     * but Retrofit uses Jackson 2.
+     *
+     * This can be removed when Retrofit updates the version (see: https://github.com/square/retrofit/blob/cb6741e3c9a7569d8def43cd856b26d549bbbf93/gradle/libs.versions.toml#L23)
+     *
+     * @return Configured Jackson 2 ObjectMapper.
+     */
+    @Bean
+    fun objectMapper(): ObjectMapper = ObjectMapper()
+
+    /**
      * Configures an [OkHttpClient] builder with an [HttpLoggingInterceptor]
      * set to log request and response bodies.
      *

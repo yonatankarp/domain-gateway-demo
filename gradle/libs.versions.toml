@@ -9,7 +9,7 @@ openapi = "7.17.0"
 retrofit2 = "3.0.0"
 spotless = "8.1.0"
 springDependencyManagement = "1.1.7"
-springboot = "3.5.8"
+springboot = "4.0.0"
 
 [libraries]
 
@@ -28,6 +28,7 @@ retrofit2_scalars = { module = "com.squareup.retrofit2:converter-scalars", versi
 
 # Spring Boot
 springboot_actuator_starter = { module = "org.springframework.boot:spring-boot-starter-actuator" }
+springboot_jackson_starter = { module = "org.springframework.boot:spring-boot-starter-jackson" }
 springboot_validation_starter = { module = "org.springframework.boot:spring-boot-starter-validation" }
 springboot_web_starter = { module = "org.springframework.boot:spring-boot-starter-webflux" }
 
@@ -35,6 +36,7 @@ springboot_web_starter = { module = "org.springframework.boot:spring-boot-starte
 mockk_core = { module = "io.mockk:mockk", version.ref = "mockk" }
 mockk_spring = { module = "com.ninja-squad:springmockk", version.ref = "mockkSpring" }
 springboot_test_starter = { module = "org.springframework.boot:spring-boot-starter-test" }
+springboot_webflux_test_starter = { module = "org.springframework.boot:spring-boot-starter-webflux-test" }
 
 [plugins]
 kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
@@ -62,6 +64,7 @@ retrofit_all = [
 
 springboot_all = [
     "springboot_actuator_starter",
+    "springboot_jackson_starter",
     "springboot_validation_starter",
     "springboot_web_starter",
 ]
@@ -70,4 +73,5 @@ tests_all = [
     "mockk_core",
     "mockk_spring",
     "springboot_test_starter",
+    "springboot_webflux_test_starter",
 ]

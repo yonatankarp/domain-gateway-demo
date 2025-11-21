@@ -8,8 +8,8 @@ import com.yonatankarp.hello.openapi.v1_current.models.HelloResponse
 import io.mockk.coEvery
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.webtestclient.autoconfigure.AutoConfigureWebTestClient
 import org.springframework.http.MediaType
 import org.springframework.test.context.TestConstructor
 import org.springframework.test.context.TestConstructor.AutowireMode
@@ -17,7 +17,7 @@ import org.springframework.test.web.reactive.server.WebTestClient
 import retrofit2.Response
 
 @SpringBootTest
-@AutoConfigureMockMvc
+@AutoConfigureWebTestClient
 @TestConstructor(autowireMode = AutowireMode.ALL)
 class DomainGatewayControllerTest(
     private val webTestClient: WebTestClient,
