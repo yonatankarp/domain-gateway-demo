@@ -2,15 +2,15 @@ package com.yonatankarp.goodbye.service.controllers
 
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.webtestclient.autoconfigure.AutoConfigureWebTestClient
 import org.springframework.http.MediaType
 import org.springframework.test.context.TestConstructor
 import org.springframework.test.context.TestConstructor.AutowireMode
 import org.springframework.test.web.reactive.server.WebTestClient
 
 @SpringBootTest
-@AutoConfigureMockMvc
+@AutoConfigureWebTestClient
 @TestConstructor(autowireMode = AutowireMode.ALL)
 class GoodbyeControllerTest(
     private val webTestClient: WebTestClient,
