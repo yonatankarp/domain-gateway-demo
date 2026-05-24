@@ -20,8 +20,8 @@ dependencies {
 
 openApiGenerate {
     generatorName = "kotlin-spring"
-    inputSpec = "$projectDir/src/main/resources/api/goodbye-api.yaml"
-    outputDir = "${layout.buildDirectory.get()}/generated/openapi/goodbye-service"
+    inputSpec.set(layout.projectDirectory.file("src/main/resources/api/goodbye-api.yaml"))
+    outputDir.set(layout.buildDirectory.dir("generated/openapi/goodbye-service"))
     apiPackage = "com.yonatankarp.goodbye.openapi.v1_current"
     modelPackage = "com.yonatankarp.goodbye.openapi.v1_current.models"
     templateDir.set("$projectDir/src/main/resources/api/templates/kotlin-spring")
