@@ -20,8 +20,8 @@ dependencies {
 
 openApiGenerate {
     generatorName = "kotlin-spring"
-    inputSpec = "$projectDir/src/main/resources/api/hello-api.yaml"
-    outputDir = "${layout.buildDirectory.get()}/generated/openapi/hello-service"
+    inputSpec.set(layout.projectDirectory.file("src/main/resources/api/hello-api.yaml"))
+    outputDir.set(layout.buildDirectory.dir("generated/openapi/hello-service"))
     apiPackage = "com.yonatankarp.hello.openapi.v1_current"
     modelPackage = "com.yonatankarp.hello.openapi.v1_current.models"
     templateDir.set("$projectDir/src/main/resources/api/templates/kotlin-spring")
