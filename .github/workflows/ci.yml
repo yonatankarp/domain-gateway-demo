@@ -10,13 +10,18 @@ concurrency:
 
 jobs:
   pipeline:
+    permissions:
+      contents: read
+      pull-requests: write
+      checks: write
     strategy:
       matrix:
         module: [domain-gateway, goodbye-service, hello-service]
-    uses: yonatankarp/github-actions/.github/workflows/ci.yml@v1
+    uses: yonatankarp/github-actions/.github/workflows/ci.yml@v2
     with:
-      context: ${{ matrix.module }}
-      app_name: ${{ matrix.module }}
+      image-name: ${{ matrix.module }}
+      dockerfile-path: ${{ matrix.module }}/Dockerfile
+      gradle-module: ":${{ matrix.module }}"
 
   dependabot_auto_merge:
     needs: pipeline
@@ -24,9 +29,9 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
-    uses: yonatankarp/github-actions/.github/workflows/dependabot-auto-merge.yml@v1
+    uses: yonatankarp/github-actions/.github/workflows/dependabot-auto-merge.yml@v2
     secrets:
       GITHUB_PAT: ${{ secrets.REVIEWER_GITHUB_TOKEN }}
 
   linters:
-    uses: yonatankarp/github-actions/.github/workflows/linters.yml@v1
+    uses: yonatankarp/github-actions/.github/workflows/linters.yml@v2
