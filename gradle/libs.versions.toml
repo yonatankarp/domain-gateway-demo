@@ -7,7 +7,7 @@ mockkSpring = "5.0.1"
 okhttp = "5.4.0"
 openapi = "7.23.0"
 retrofit2 = "3.0.0"
-spotless = "8.7.0"
+spotless = "8.8.0"
 springDependencyManagement = "1.1.7"
 springboot = "4.1.0"
 
