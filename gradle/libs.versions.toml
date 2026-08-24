@@ -9,7 +9,7 @@ openapi = "7.24.0"
 retrofit2 = "3.0.0"
 spotless = "8.10.0"
 springDependencyManagement = "1.1.7"
-springboot = "4.1.0"
+springboot = "4.1.1"
 
 [libraries]
 
